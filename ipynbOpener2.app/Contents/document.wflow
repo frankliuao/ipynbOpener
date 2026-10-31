@@ -60,9 +60,45 @@
 				<dict>
 					<key>COMMAND_STRING</key>
 					<string>#!/bin/bash
-variable="'$1'"
-the_script='tell application "terminal" to do script "jupyter notebook '
-osascript -e "${the_script}${variable}\""</string>
+# Open one existing .ipynb in Terminal. Directory and filename are passed to
+# osascript as argv and quoted with AppleScript "quoted form of" so the name
+# is never interpolated into a shell string.
+set -euo pipefail
+
+if [[ $# -lt 1 ]]; then
+  echo "No notebook path was provided." &gt;&amp;2
+  exit 1
+fi
+
+file=$1
+
+if [[ ! -f "$file" ]]; then
+  echo "Not an existing file." &gt;&amp;2
+  exit 1
+fi
+
+dir=$(dirname -- "$file")
+name=$(basename -- "$file")
+
+case "$name" in
+  *.[iI][pP][yY][nN][bB]) ;;
+  *)
+    echo "Refusing to open a non-.ipynb file." &gt;&amp;2
+    exit 1
+    ;;
+esac
+
+dir=$(CDPATH= cd -- "$dir" &amp;&amp; pwd)
+
+osascript - "$dir" "$name" &lt;&lt;'APPLESCRIPT'
+on run argv
+	set notebookDir to item 1 of argv
+	set notebookName to item 2 of argv
+	set shellCmd to "cd " &amp; quoted form of notebookDir &amp; " &amp;&amp; jupyter notebook -- " &amp; quoted form of notebookName
+	tell application "Terminal" to do script shellCmd
+end run
+APPLESCRIPT
+</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>

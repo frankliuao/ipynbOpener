@@ -17,14 +17,10 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>*</string>
+				<string>ipynb</string>
 			</array>
 			<key>CFBundleTypeName</key>
-			<string>Automator workflow file</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>****</string>
-			</array>
+			<string>Jupyter Notebook</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 		</dict>
