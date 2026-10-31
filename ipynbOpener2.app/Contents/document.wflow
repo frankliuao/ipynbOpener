@@ -81,7 +81,7 @@ dir=$(dirname -- "$file")
 name=$(basename -- "$file")
 
 case "$name" in
-  *.ipynb) ;;
+  *.[iI][pP][yY][nN][bB]) ;;
   *)
     echo "Refusing to open a non-.ipynb file." &gt;&amp;2
     exit 1
