@@ -2,6 +2,10 @@
 
 Enables double-clicking to open a Jupyter Notebook file on an OSX.
 
+## Security
+
+Versions from before this change could run commands from crafted filenames. The applets in this repository are unsigned x86_64 builds from 2019, and the project is unmaintained. Rebuilding them in Automator on a current Mac is recommended. They now claim only the `.ipynb` extension.
+
 ## Prerequisites
 **ipynbOpener** requires [conda](https://conda.io/en/latest/) to be already installed, and *jupyter* is installed in the *base* environment. i.e.
 
